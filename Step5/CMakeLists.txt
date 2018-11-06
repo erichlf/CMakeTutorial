@@ -11,6 +11,12 @@ option(USE_MYMATH "Use tutorial provided math implementation" ON)
 set(Tutorial_VERSION_MAJOR 1)
 set(Tutorial_VERSION_MINOR 0)
 
+# does this system provide the log and exp functions?
+include(CheckSymbolExists)
+set(CMAKE_REQUIRED_LIBRARIES "m")
+check_symbol_exists(log "math.h" HAVE_LOG)
+check_symbol_exists(exp "math.h" HAVE_EXP)
+
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file(
@@ -35,9 +41,10 @@ target_include_directories(Tutorial PUBLIC
                            )
 
 # add the install targets
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
 install(TARGETS Tutorial DESTINATION bin)
 install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h"
-        DESTINATION include
+        DESTINATION bin/include
         )
 
 # enable testing
