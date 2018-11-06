@@ -1,0 +1,29 @@
+project(Tutorial)
+# the version number.
+set(Tutorial_VERSION_MAJOR 1)
+set(Tutorial_VERSION_MINOR 0)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file(
+  "${PROJECT_SOURCE_DIR}/TutorialConfig.h.in"
+  "${PROJECT_BINARY_DIR}/TutorialConfig.h"
+  )
+
+# add the executable
+add_executable(Tutorial tutorial.cxx)
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                            "${PROJECT_BINARY_DIR}"
+                            )
+
+add_executable(Tutorial tutorial.cxx)
+
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/bin)
+install(TARGETS Tutorial
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
